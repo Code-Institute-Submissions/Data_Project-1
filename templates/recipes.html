@@ -10,10 +10,9 @@
     <!-- Page to display individual recipes -->
     <div class="container">
         <h1>COOKBOOK</h1>
-        {% for recipe in recipes %}
             <h3>{{ recipe.recipe_name }}</h3>
-            <h4>{{ recipe.style_name }}</h5>
-            <h4>{{ recipe.author_name }}</h5>
+            <h4>{{ recipe.style_name }}</h4>
+            <h4>{{ recipe.author_name }}</h4>
             <ul><strong>Ingredients</strong>
                 {% for ingredient in recipe.ingredients %}
                 <li>{{ ingredient.quantity + " " + ingredient.ingredient_name   }}</li>
@@ -22,12 +21,12 @@
             <p><strong>Instructions</strong>
                 {{ recipe.instructions }}
             </p>
-            {% if recipe.allergens == True %}
+            {% if allergens == True %}
                 {% for allergen in recipe.allergen %}
                     <p>Contains {{ allergen.allergen_name }}</p>
                 {% endfor %}
             {% endif %}
-        {% endfor %}
+        
     </div>
 </body>
 </html>

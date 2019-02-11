@@ -11,6 +11,12 @@
     <p>
         Welcome {{ session["username"] }}
     </p>
+    <div class="row">
+        <button>
+            <a href="{{ url_for('add_recipe') }}" class="waves-effect waves-light">
+            <i class="material-icons right">cancel</i>Add A Recipe</a>
+        </button>
+    </div>
     
 </body>
 </html>
