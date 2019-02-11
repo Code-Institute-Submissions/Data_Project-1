@@ -13,32 +13,38 @@
     </p>
     <h3>Categories</h3>
     <form action="{{ url_for('results') }}" id="form1" method="POST">
-        <ul class="collapsible">
-            <div class="row">
-                <h4>Cuisine</h4>
+        <div class="row">
+            <select name="style_name">
+                <option value="" disabled selected>Cuisine</option>
                 {% for s in cuisine.style %}
-                    <li>{{ s.style_name }}</li>
+                    <option value="{{ style_name }}">{{ s.style_name }}</option>
                 {% endfor %}
-            </div>
-            <div class="row">
-                <h4>Authors</h4>
+            </select>
+        </div>
+        <div class="row">
+            <select name="author_name">
+                <option value="" disabled selected>Authors</option>
                 {% for a in authors.author %}
-                    <li>{{ a.author_name }}</li>
+                    <option value="{{ author_name }}">{{ a.author_name }}</option>
                 {% endfor %}
-            </div>
-            <div class="row">
-                <h4>Ingredients</h4>
+            </select>
+        </div>
+        <div class="row">
+            <select name="ingredient_name">
+                <option value="" disabled selected>Ingredients</option>
                 {% for item in ingredients.ingredient %}
-                    <li>{{ item.ingredient_name }}</li>
+                    <option value="{{ ingredient_name }}">{{ item.ingredient_name }}</option>
                 {% endfor %}
-            </div>
-            <div class="row">
-                <h4>Allergens</h4>
+            </select>
+        </div>
+        <div class="row">
+            <select name="allergen_name">
+                <option value="" disabled selected>Allergens</option>
                 {% for ail in allergens.allergen %}
-                    <li>{{ ail.allergen_name }}</li>
+                    <option value="{{ allergen_name }}">{{ ail.allergen_name }}</option>
                 {% endfor %}
-            </div>
-        </ul>
+            </select>
+        </div>
     </form>
     <div class="row">
         <button>
