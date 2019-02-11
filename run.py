@@ -22,7 +22,7 @@ def index():
     
 @app.route('/search')
 def search():
-    return render_template("search.html")
+    return render_template("search.html", categories = mongo.db.categories.find())
 
 @app.route('/add_recipe')
 def add_recipe():
@@ -62,6 +62,12 @@ def recipe():
     """Display an individual recipe"""
     selected = mongo.db.recipes.find_one({"recipe_name": "test recipe"})
     return render_template("recipes.html", recipe = selected)
+
+@app.route('/logout')
+def logout():
+    """Log player out of CookBook and return to sign in page"""
+    session.pop("username", None)
+    return redirect(url_for("index"))
 
 if __name__ == '__main__':
     app.run(host = os.getenv('IP'), port = int(os.getenv('PORT')), debug = True)

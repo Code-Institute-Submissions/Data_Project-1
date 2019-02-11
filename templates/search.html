@@ -12,11 +12,30 @@
         Welcome {{ session["username"] }}
     </p>
     <div class="row">
+        <h3>Categories</h3>
+        <ul class="collapsible">
+            {% for category in categories %}
+                <li>
+                    <div class="collapsible-header">
+                        <strong>{{ category.category_name }}</strong>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="row">
         <button>
             <a href="{{ url_for('add_recipe') }}" class="waves-effect waves-light">
             <i class="material-icons right">cancel</i>Add A Recipe</a>
         </button>
+        <button>
+            <a href="#" class="waves-effect waves-light">
+            <i class="material-icons right">cancel</i>Find A Recipe</a>
+        </button>
+        <button>
+            <a href="{{ url_for('logout') }}" class="waves-effect waves-light">
+            <i class="material-icons right">cancel</i>Sign Out</a>
+        </button>
     </div>
-    
 </body>
 </html>

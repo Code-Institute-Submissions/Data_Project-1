@@ -21,12 +21,9 @@
             <p><strong>Instructions</strong>
                 {{ recipe.instructions }}
             </p>
-            {% if allergens == True %}
-                {% for allergen in recipe.allergen %}
-                    <p>Contains {{ allergen.allergen_name }}</p>
-                {% endfor %}
+            {% if recipe.allergens == True %}
+                <p>Contains {{ recipe.allergen_name }}</p>
             {% endif %}
-        
     </div>
 </body>
 </html>
