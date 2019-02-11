@@ -22,7 +22,15 @@ def index():
     
 @app.route('/search')
 def search():
-    return render_template("search.html", categories = mongo.db.categories.find())
+    styles = mongo.db.categories.find_one({"category_name": "cuisine"})
+    chefs = mongo.db.categories.find_one({"category_name": "authors"})
+    items = mongo.db.categories.find_one({"category_name": "ingredients"})
+    alls = mongo.db.categories.find_one({"category_name": "allergens"})
+    return render_template("search.html", cuisine = styles, authors = chefs, ingredients = items, allergens = alls)
+    
+@app.route('/results', methods = ["POST"])
+def results():
+    return render_template("results.html")
 
 @app.route('/add_recipe')
 def add_recipe():

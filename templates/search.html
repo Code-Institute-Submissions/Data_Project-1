@@ -11,25 +11,41 @@
     <p>
         Welcome {{ session["username"] }}
     </p>
-    <div class="row">
-        <h3>Categories</h3>
+    <h3>Categories</h3>
+    <form action="{{ url_for('results') }}" id="form1" method="POST">
         <ul class="collapsible">
-            {% for category in categories %}
-                <li>
-                    <div class="collapsible-header">
-                        <strong>{{ category.category_name }}</strong>
-                    </div>
-                </li>
-            {% endfor %}
+            <div class="row">
+                <h4>Cuisine</h4>
+                {% for s in cuisine.style %}
+                    <li>{{ s.style_name }}</li>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <h4>Authors</h4>
+                {% for a in authors.author %}
+                    <li>{{ a.author_name }}</li>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <h4>Ingredients</h4>
+                {% for item in ingredients.ingredient %}
+                    <li>{{ item.ingredient_name }}</li>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <h4>Allergens</h4>
+                {% for ail in allergens.allergen %}
+                    <li>{{ ail.allergen_name }}</li>
+                {% endfor %}
+            </div>
         </ul>
-    </div>
+    </form>
     <div class="row">
         <button>
             <a href="{{ url_for('add_recipe') }}" class="waves-effect waves-light">
             <i class="material-icons right">cancel</i>Add A Recipe</a>
         </button>
-        <button>
-            <a href="#" class="waves-effect waves-light">
+        <button class="waves-effect waves-light" type="submit" name="action" form="form1">
             <i class="material-icons right">cancel</i>Find A Recipe</a>
         </button>
         <button>
