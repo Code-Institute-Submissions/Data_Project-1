@@ -30,7 +30,21 @@ def search():
     
 @app.route('/results', methods = ["POST"])
 def results():
-    return render_template("results.html")
+    if request.form.get("style_name"):
+        #option =
+        choices = mongo.db.recipes.find({"style_name": request.form.get("style_name")})
+    elif request.form.get("author_name"):
+        option = request.form.get("author_name")
+        choices = mongo.db.recipes.find({"author_name": option})
+    elif request.form.get("ingredient_name"):
+        option = request.form.get("ingredient_name")
+        choices = mongo.db.recipes.find({"ingredients.ingredient_name": option})
+    elif request.form.get("allergen_name"):
+        option = request.form.get("allergen_name")
+        choices = mongo.db.recipes.find({"allergen_name": option})
+    else:
+        choices = mongo.db.recipes.find()
+    return render_template("results.html", choices = choices)
 
 @app.route('/add_recipe')
 def add_recipe():
@@ -43,19 +57,19 @@ def insert_recipe():
     ingredientQty = request.form.getlist("quantity")
     i = 0
     while i < len(ingredientItems):
-        ingredient = {"ingredient_name": ingredientItems[i], "quantity": ingredientQty[i]}
+        ingredient = {"ingredient_name": ingredientItems[i].lower(), "quantity": ingredientQty[i]}
         ingredientsList.append(ingredient)
         i +=1
     if request.form.get("allergens") == "on":
         allergens = True
-        allergen_name = request.form["allergen_name"]
+        allergen_name = request.form["allergen_name"].lower()
     else:
         allergens = False
         allergen_name = ""
     new_recipe = {
-        "recipe_name": request.form["recipe_name"],
-        "style_name": request.form["style_name"],
-        "author_name": request.form["author_name"],
+        "recipe_name": request.form["recipe_name"].lower(),
+        "style_name": request.form["style_name"].lower(),
+        "author_name": request.form["author_name"].lower(),
         "ingredients": ingredientsList,
         "instructions": request.form["instructions"],
         "allergens": allergens,
@@ -65,7 +79,7 @@ def insert_recipe():
     mongo.db.recipes.insert_one(new_recipe)
     return redirect(url_for("search"))
       
-@app.route('/recipe')
+@app.route('/recipe', methods = ["POST"])
 def recipe():
     """Display an individual recipe"""
     selected = mongo.db.recipes.find_one({"recipe_name": "test recipe"})
