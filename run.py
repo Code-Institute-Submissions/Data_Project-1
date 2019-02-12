@@ -30,20 +30,28 @@ def search():
     
 @app.route('/results', methods = ["POST"])
 def results():
+    options = {}
     if request.form.get("style_name"):
-        #option =
-        choices = mongo.db.recipes.find({"style_name": request.form.get("style_name")})
-    elif request.form.get("author_name"):
-        option = request.form.get("author_name")
-        choices = mongo.db.recipes.find({"author_name": option})
-    elif request.form.get("ingredient_name"):
-        option = request.form.get("ingredient_name")
-        choices = mongo.db.recipes.find({"ingredients.ingredient_name": option})
-    elif request.form.get("allergen_name"):
-        option = request.form.get("allergen_name")
-        choices = mongo.db.recipes.find({"allergen_name": option})
+        option = {"style_name": request.form.get("style_name")}
+        options.update(option)
     else:
-        choices = mongo.db.recipes.find()
+        choices = mongo.db.recipes.find().sort("views", -1)
+    if request.form.get("author_name"): 
+        option = {"author_name": request.form.get("author_name")}
+        options.update(option)
+    else:
+        choices = mongo.db.recipes.find().sort("views", -1)
+    if request.form.get("ingredient_name"): 
+        option = {"ingredients.ingredient_name": request.form.get("ingredient_name")}
+        options.update(option)
+    else:
+        choices = mongo.db.recipes.find().sort("views", -1)
+    if request.form.get("allergen_name"): 
+        option = {"allergen_name": request.form.get("allergen_name")}
+        options.update(option)
+    else:
+        choices = mongo.db.recipes.find().sort("views", -1)
+    choices = mongo.db.recipes.find(options).sort("views", -1)
     return render_template("results.html", choices = choices)
 
 @app.route('/add_recipe')
