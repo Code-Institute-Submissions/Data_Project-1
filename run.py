@@ -28,7 +28,7 @@ def search():
     alls = mongo.db.categories.find_one({"category_name": "allergens"})
     return render_template("search.html", cuisine = styles, authors = chefs, ingredients = items, allergens = alls)
     
-@app.route('/results', methods = ["POST"])
+@app.route('/results', methods = ["GET", "POST"])
 def results():
     options = {}
     if request.form.get("style_name"):
@@ -82,16 +82,19 @@ def insert_recipe():
         "instructions": request.form["instructions"],
         "allergens": allergens,
         "allergen_name": allergen_name,
-        "views": "0"
+        "views": 0
     }
     mongo.db.recipes.insert_one(new_recipe)
     return redirect(url_for("search"))
       
-@app.route('/recipe', methods = ["POST"])
-def recipe():
+@app.route('/recipe/<choice_id>', methods = ["GET", "POST"])
+def recipe(choice_id):
     """Display an individual recipe"""
-    selected = mongo.db.recipes.find_one({"recipe_name": "test recipe"})
-    return render_template("recipes.html", recipe = selected)
+    the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(choice_id)})
+    new_view = the_recipe["views"]
+    new_view +=1
+    mongo.db.recipes.update_one(the_recipe, {"$set": {"views": new_view}})
+    return render_template("recipe.html", recipe = the_recipe)
 
 @app.route('/logout')
 def logout():
