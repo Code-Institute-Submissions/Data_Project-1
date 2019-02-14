@@ -5,19 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CookBook</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+    
 </head>
 <body>
     <h3>Results Page</h3>
     <div class="row">
-            <ul>
-                {% for choice in choices %}
-                    <li><a href="{{ url_for('recipe', choice_id = choice._id) }}">{{ choice.recipe_name.title() }}</a></li>
-                {% endfor %}
-            </ul>
+        {{ pagination.info }}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Views</th>
+                    <th>Recipe</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for choice in choices %}
+                <tr>
+                    <td>{{ loop.index + pagination.skip }}</td>
+                    <td>{{ choice.views }}</td>
+                    <td><a href="{{ url_for('recipe', choice_id = choice._id) }}">{{ choice.recipe_name.title() }}</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
         <button>
             <a href="{{ url_for('search') }}" class="waves-effect waves-light">
             <i class="material-icons right">cancel</i>New Search</a>
         </button>
+    </div>
+    <div class="row">
+        {{ pagination.links }}
     </div>
     
 </body>
