@@ -101,6 +101,40 @@ def recipe(choice_id):
     mongo.db.recipes.update_one(the_recipe, {"$set": {"views": new_view}})
     return render_template("recipe.html", recipe = the_recipe)
 
+@app.route('/edit_recipe/<recipe_id>', methods = ["GET", "POST"])
+def edit_recipe(recipe_id):
+    the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    return render_template("editrecipe.html", recipe = the_recipe)
+    
+@app.route('/update_recipe/<recipe_id>', methods = ["POST"])
+def update_recipe(recipe_id):
+    ingredientsList = []
+    ingredientItems = request.form.getlist("ingredient_name")
+    ingredientQty = request.form.getlist("quantity")
+    i = 0
+    while i < len(ingredientItems):
+        ingredient = {"ingredient_name": ingredientItems[i].lower(), "quantity": ingredientQty[i]}
+        ingredientsList.append(ingredient)
+        i +=1
+    if request.form.get("allergens") == "on":
+        allergens = True
+        allergen_name = request.form["allergen_name"].lower()
+    else:
+        allergens = False
+        allergen_name = ""
+    mongo.db.recipes.update({"_id": ObjectId(recipe_id)},
+        {
+            "recipe_name": request.form["recipe_name"].lower(),
+            "style_name": request.form["style_name"].lower(),
+            "author_name": request.form["author_name"].lower(),
+            "ingredients": ingredientsList,
+            "instructions": request.form["instructions"],
+            "allergens": allergens,
+            "allergen_name": allergen_name,
+            "views": int(request.form.get("views"))
+        })
+    return redirect(url_for("results"))
+
 @app.route('/logout')
 def logout():
     """Log user out of CookBook and return to sign in page"""
