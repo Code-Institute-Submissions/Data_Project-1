@@ -135,6 +135,11 @@ def update_recipe(recipe_id):
         })
     return redirect(url_for("results"))
 
+@app.route('/delete_recipe/<recipe_id>')
+def delete_recipe(recipe_id):
+    mongo.db.recipes.remove({"_id": ObjectId(recipe_id)})
+    return redirect(url_for("search"))
+
 @app.route('/logout')
 def logout():
     """Log user out of CookBook and return to sign in page"""
