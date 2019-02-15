@@ -1,21 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>CookBook</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
-    
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
     <h3>Results Page</h3>
     <div class="row">
         {{ pagination.info }}
-        <table>
+    </div>
+    <div class="row">
+        <table class="bordered centered">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th></th>
                     <th>Views</th>
                     <th>Recipe</th>
                 </tr>
@@ -30,14 +23,14 @@
             {% endfor %}
             </tbody>
         </table>
+    </div>
+    <div class="row">
         <button>
-            <a href="{{ url_for('search') }}" class="waves-effect waves-light">
-            <i class="material-icons right">cancel</i>New Search</a>
+            <a href="{{ url_for('search') }}" class="btn waves-effect waves-light">
+            <i class="material-icons right">search</i>New Search</a>
         </button>
     </div>
     <div class="row">
         {{ pagination.links }}
     </div>
-    
-</body>
-</html>
+{% endblock %}
