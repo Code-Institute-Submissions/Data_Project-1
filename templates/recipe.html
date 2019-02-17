@@ -1,19 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-    <!-- Page to display individual recipes -->
+<!-- Page to display specified individual recipes -->
+<section class="container">
     <div class="row">
-        <h3>{{ recipe.recipe_name.title() }}</h3>
+        <h3 class="center-align">{{ recipe.recipe_name.title() }}</h3>
     </div>
     <div class="row">
-        <h4>{{ recipe.style_name.capitalize() }}</h4>
+        <h4 class="center-align">{{ recipe.style_name.capitalize() }}</h4>
     </div>
     <div class="row">
-        <h4>{{ recipe.author_name.title() }}</h4>
+        <h4 class="center-align">{{ recipe.author_name.title() }}</h4>
     </div>
     <div class="row">
-        <ul><strong>Ingredients</strong>
+        <ul class="center-align"><strong>Ingredients</strong>
             {% for ingredient in recipe.ingredients %}
-            <li>{{ ingredient.quantity + " " + ingredient.ingredient_name.capitalize() }}</li>
+            <li class="center-align">{{ ingredient.quantity + " " + ingredient.ingredient_name.capitalize() }}</li>
             {% endfor %}
         </ul>
     </div>
@@ -24,24 +25,19 @@
     </div>
     <div class="row">
         {% if recipe.allergens == True %}
-            <p>Contains {{ recipe.allergen_name }}</p>
+            <p class="center-align">Contains {{ recipe.allergen_name }}</p>
         {% endif %}
     </div>
     <div class="row">
-        <p>This recipe has been previously viewed {{ recipe.views }} times</p>
+        <p class="center-align">This recipe has been previously viewed {{ recipe.views }} times</p>
     </div>
-    <div class="row">
-        <button>
-            <a href="{{ url_for('results') }}" class="btn waves-effect waves-light">
-            <i class="material-icons right">keyboard_return</i>Back To Results</a>
-        </button>
-        <button>
-            <a href="{{ url_for('edit_recipe', recipe_id = recipe._id) }}" class="btn waves-effect waves-light">
-            <i class="material-icons right">edit</i>Modify This Recipe</a>
-        </button>
-        <button>
-            <a href="{{ url_for('delete_recipe', recipe_id = recipe._id) }}" class="btn waves-effect waves-light">
-            <i class="material-icons right">delete_forever</i>Delete This Recipe</a>
-        </button>
+    <div class="row center-align">
+        <a href="{{ url_for('results') }}" class="waves-effect waves-light btn teal accent-4
+            text-black black-text"><i class="material-icons right">keyboard_return</i>Back To Results</a>
+        <a href="{{ url_for('edit_recipe', recipe_id = recipe._id) }}" class="waves-effect waves-light btn green accent-4
+            text-black black-text"><i class="material-icons right">edit</i>Change This Recipe</a>
+        <a href="{{ url_for('delete_recipe', recipe_id = recipe._id) }}" class="waves-effect waves-light btn red accent-4
+            text-black black-text"><i class="material-icons right">delete_forever</i>Delete This Recipe</a>
     </div>
+</section>
 {% endblock %}

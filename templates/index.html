@@ -1,18 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-    <!-- Welcome / Sign in Page -->
+<!-- Welcome / Sign in Page -->
+<section class="container">
     <div class="row">
-        <h2>Welcome to your online CookBook!</h2>
+        <h2 class="center-align">Welcome to your online CookBook!</h2>
         <br>
-        <h3>Please sign in to start</h3>
+        <h3 class="center-align">Please sign in to start</h3>
     </div>
     <div class="row">
         <form method="POST">
             <input type="text" id="username" name="username" placeholder="Name">
             <br>
-            <button class="btn waves-effect waves-light" type="submit">
+            <button class="waves-effect waves-light btn col s12 text-black black-text" type="submit">
                 <i class="material-icons right">send</i>Login
             </button>
         </form>
     </div>
+</section>
 {% endblock %}

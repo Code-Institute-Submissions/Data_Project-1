@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-    <h3>Results Page</h3>
+<section class="container">
+    <h3 class="center-align">Matching Recipes</h3>
     <div class="row">
-        {{ pagination.info }}
+        <h5 class="center-align">{{ pagination.info }}</h5>
     </div>
     <div class="row">
-        <table class="bordered centered">
+        <table class="bordered centered striped green accent-2">
             <thead>
                 <tr>
                     <th></th>
@@ -18,19 +19,19 @@
                 <tr>
                     <td>{{ loop.index + pagination.skip }}</td>
                     <td>{{ choice.views }}</td>
-                    <td><a href="{{ url_for('recipe', choice_id = choice._id) }}">{{ choice.recipe_name.title() }}</a></td>
+                    <td><a href="{{ url_for('recipe', choice_id = choice._id) }}" 
+                        class="text-black black-text">{{ choice.recipe_name.title() }}</a></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="row">
-        <button>
-            <a href="{{ url_for('search') }}" class="btn waves-effect waves-light">
-            <i class="material-icons right">search</i>New Search</a>
-        </button>
+    <div class="row center-align">
+        <a href="{{ url_for('search') }}" class="waves-effect waves-light btn-large teal accent-4
+            text-black black-text"><i class="material-icons right">search</i>New Search</a>
     </div>
-    <div class="row">
+    <div class="row center-align">
         {{ pagination.links }}
     </div>
+</section>
 {% endblock %}

@@ -1,47 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
-    <h3>Modify This Recipe</h3>
+<section class="container">
+    <h3 class="center-align">Change This Recipe</h3>
     <div class="row">
         <form action="{{ url_for('update_recipe', recipe_id = recipe._id) }}" method="POST" class="col s12">
             <div class="row">
                 <div class="input-field col s12">
-                    <i class="material-icons prefix">assignment</i>
+                    <i class="material-icons prefix deep-orange-text text-deep-orange">assignment</i>
                     <input id="recipe_name" name="recipe_name" type="text" class="validate" value="{{ recipe.recipe_name }}">
-                    <label for="icon_prefix">Recipe Name</label>
+                    <label for="recipe_name">Recipe Name</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <i class="material-icons prefix">assignment</i>
+                    <i class="material-icons prefix purple-text text-purple">style</i>
                     <input id="style_name" name="style_name" type="text" class="validate" value="{{ recipe.style_name }}">
-                    <label for="icon_prefix">Style of Cuisine</label>
+                    <label for="style_name">Style of Cuisine</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <i class="material-icons prefix">person</i>
+                    <i class="material-icons prefix yellow-text text-yellow">account_box</i>
                     <input id="author_name" name="author_name" type="text" class="validate" value="{{ recipe.author_name }}">
-                    <label for="icon_prefix">Author's Name</label>
+                    <label for="author_name">Author's Name</label>
                 </div>
             </div>
             <div class="row">
                 <fieldset>
                     <legend>List Of Ingredients</legend>
-                    <i class="material-icons prefix">subject</i>
+                    <i class="material-icons prefix">list</i>
                     <div class="input-field col s12">
                         <ul id="ingredients">
                             {% for ingredient in recipe.ingredients %}
                             <li class="input-field col s12 m6">
-                                <input name="ingredient_name" type="text" class="validate" value="{{ ingredient.ingredient_name }}">
-                                <label for="icon-prefix">Ingredient</label>
+                                <input id="ingredient_name" name="ingredient_name" type="text"
+                                    class="validate" value="{{ ingredient.ingredient_name }}">
+                                <label for="ingredient_name">Ingredient</label>
                             </li>
                             <li class="input-field col s12 m6">
-                                <input name="quantity" type="text" class="validate" value="{{ ingredient.quantity }}">
-                                <label for="icon-prefix">Quantity & Type</label>
+                                <input id="quantity" name="quantity" type="text" 
+                                    class="validate" value="{{ ingredient.quantity }}">
+                                <label for="quantity">Quantity & Type</label>
                             </li>
                             {% endfor %}
                         </ul>
-                        <a class="btn-floating btn-large waves-effect waves-light red" id="extra">
+                        <a class="btn-floating waves-effect waves-light green" id="extra">
                             <i class="material-icons">add</i></a>
                     </div>
                 </fieldset>
@@ -50,48 +53,40 @@
                 <div class="input-field col s12">
                     <i class="material-icons prefix">subject</i>
                     <textarea id="instructions" name="instructions" class="materialize-textarea">{{ recipe.instructions }}</textarea>
-                    <label for="icon_telephone">Cooking Instructions</label>
+                    <label for="instructions">Cooking Instructions</label>
                 </div>
             </div>
             <div class="row">
                 <fieldset>
-                    <legend>Allergens</legend>
-                    <div class="input-field col s12">
-                        <input name="allergens" id="allergens" type="radio" class="with-gap">
-                        <label for="allergens">Any Allergens?</label>
+                    <legend>Any Allergens?</legend>
+                    <i class="material-icons prefix red-text text-red">warning</i>
+                    <div class="row col s12">
+                        {% if recipe.allergens %}
+                            <input name="allergens" id="allergens" type="checkbox" class="filled-in" checked>
+                        {% else %}
+                            <input name="allergens" id="allergens" type="checkbox" class="filled-in">
+                        {% endif %}
+                        <label for="allergens">Yes</label>
                     </div>
-                    <div class="input-field col s12">
-                        <input id="allergen_name" name="allergen_name" type="text" value="{{ recipe.allergen_name }}">
-                        <label for="icon_prefix">Allergen</label>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="allergen_name" name="allergen_name" type="text" value="{{ recipe.allergen_name }}">
+                            <label for="allergen_name">Name</label>
+                        </div>
                     </div>
                 </fieldset>
             </div>
             <div class="row" style="display: none">
                 <input id="views" name="views" type="number" class="validate" value="{{ recipe.views }}">
             </div>
-            <div class="row">
-                <button class="btn waves-effect waves-light" type="submit" name="action">Modify This Recipe
-                    <i class="material-icons right">edit</i>
+            <div class="row center-align">
+                <button class="waves-effect waves-light btn green accent-4 text-black black-text"
+                    type="submit" name="action">Change This Recipe<i class="material-icons right">edit</i>
                 </button>
-                <a href="{{ url_for('results') }}" class="waves-effect waves-light btn grey">
-                    <i class="material-icons right">cancel</i>Cancel</a>
+                <a href="{{ url_for('results') }}" class="waves-effect waves-light btn red
+                    text-black black-text"><i class="material-icons right">cancel</i>Cancel</a>
             </div>
         </form>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            var field = `<li class="input-field col s12 m6">
-                                <input name="ingredient_name" type="text" class="validate">
-                                <label for="icon-prefix">Ingredient</label>
-                        </li>
-                        <li class="input-field col s12 m6">
-                                <input name="quantity" type="text" class="validate">
-                                <label for="icon-prefix">Quantity & Type</label>
-                        </li>`;
-            $("#extra").click(function(){
-                $("#ingredients").append(field);
-            });
-        });
-    </script>
+</section>
 {% endblock %}
