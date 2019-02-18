@@ -65,17 +65,36 @@ def add_recipe():
     
 @app.route('/insert_recipe', methods = ["POST"])
 def insert_recipe():
+    styles = mongo.db.categories.find_one({"category_name": "cuisine"})
+    if request.form["style_name"] not in styles:
+        new_style = request.form["style_name"].lower()
+        mongo.db.categories.update({"category_name": "cuisine"}, 
+            {"$addToSet": {"style": {"style_name": new_style}}})
+    chefs = mongo.db.categories.find_one({"category_name": "authors"})
+    if request.form["author_name"] not in chefs:
+        new_author = request.form["author_name"].lower()
+        mongo.db.categories.update({"category_name": "authors"},
+            {"$addToSet": {"author": {"author_name": new_author}}})
     ingredientsList = []
     ingredientItems = request.form.getlist("ingredient_name")
     ingredientQty = request.form.getlist("quantity")
+    items = mongo.db.categories.find_one({"category_name": "ingredients"})
     i = 0
     while i < len(ingredientItems):
+        if ingredientItems[i] not in items:
+            mongo.db.categories.update({"category_name": "ingredients"},
+                {"$addToSet": {"ingredient": {"ingredient_name": ingredientItems[i].lower()}}})
         ingredient = {"ingredient_name": ingredientItems[i].lower(), "quantity": ingredientQty[i]}
         ingredientsList.append(ingredient)
         i +=1
     if request.form.get("allergens") == "on":
         allergens = True
         allergen_name = request.form["allergen_name"].lower()
+        alls = mongo.db.categories.find_one({"category_name": "allergens"})
+        if request.form["allergen_name"] not in alls:
+            new_allergen = allergen_name
+            mongo.db.categories.update({"category_name": "allergens"},
+                {"$addToSet": {"allergen": {"allergen_name": new_allergen}}})
     else:
         allergens = False
         allergen_name = ""
