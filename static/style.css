@@ -1,7 +1,23 @@
+h1 {
+    letter-spacing: 8px;
+}
+
 .btn {
     margin: 5px;
 }
 
 main {
     padding-top: 10px;
+}
+
+.pagination a {
+    border: 1px solid #ddd;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+#display {
+    white-space: pre-line;
 }

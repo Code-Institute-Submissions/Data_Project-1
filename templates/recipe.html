@@ -19,9 +19,9 @@
         </ul>
     </div>
     <div class="row">
-        <p><strong>Instructions</strong>
-            {{ recipe.instructions }}
-        </p>
+        <div class="center-align"><strong>Instructions</strong>
+            <p id="display">{{ recipe.instructions }}</p>
+        </div>
     </div>
     <div class="row">
         {% if recipe.allergens == True %}
