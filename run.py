@@ -16,6 +16,7 @@ mongo = PyMongo(app)
 options = {}
 
 def selection():
+    """Populate options with chosen fields"""
     if request.form.get("style_name"):
         option = {"style_name": request.form.get("style_name")}
         options.update(option)
@@ -40,6 +41,7 @@ def index():
     
 @app.route('/search')
 def search():
+    """Display search options to the user"""
     options.clear()
     styles = mongo.db.categories.find_one({"category_name": "cuisine"})
     chefs = mongo.db.categories.find_one({"category_name": "authors"})
@@ -49,6 +51,7 @@ def search():
     
 @app.route('/results', methods = ["GET", "POST"])
 def results():
+    """Display results of search with or without options and apply pagination to page"""
     selection()
     page = int(request.args.get("page", 1))
     per_page = 5
@@ -62,10 +65,12 @@ def results():
 
 @app.route('/add_recipe')
 def add_recipe():
+    """Display form to add a recipe to database"""
     return render_template("addrecipe.html")
     
 @app.route('/insert_recipe', methods = ["POST"])
 def insert_recipe():
+    """Check database to see if search categories exist and add them to database if not"""
     styles = mongo.db.categories.find_one({"category_name": "cuisine"})
     if request.form["style_name"] not in styles:
         new_style = request.form["style_name"].lower()
@@ -76,6 +81,7 @@ def insert_recipe():
         new_author = request.form["author_name"].lower()
         mongo.db.categories.update({"category_name": "authors"},
             {"$addToSet": {"author": {"author_name": new_author}}})
+    """Create and populate list of ingredients and add any new ingredients to database category"""
     ingredientsList = []
     ingredientItems = request.form.getlist("ingredient_name")
     ingredientQty = request.form.getlist("quantity")
@@ -88,6 +94,7 @@ def insert_recipe():
         ingredient = {"ingredient_name": ingredientItems[i].lower(), "quantity": ingredientQty[i]}
         ingredientsList.append(ingredient)
         i +=1
+    """Evaluate allergens entered and add any new allergens to database category"""
     if request.form.get("allergens") == "on":
         allergens = True
         allergen_name = request.form["allergen_name"].lower()
@@ -99,6 +106,7 @@ def insert_recipe():
     else:
         allergens = False
         allergen_name = ""
+    """Create and populate new recipe document and add to database"""
     new_recipe = {
         "recipe_name": request.form["recipe_name"].lower(),
         "style_name": request.form["style_name"].lower(),
@@ -123,11 +131,13 @@ def recipe(choice_id):
 
 @app.route('/edit_recipe/<recipe_id>', methods = ["GET", "POST"])
 def edit_recipe(recipe_id):
+    """Display form to edit a specifically chosen recipe"""
     the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     return render_template("editrecipe.html", recipe = the_recipe)
     
 @app.route('/update_recipe/<recipe_id>', methods = ["POST"])
 def update_recipe(recipe_id):
+    """Create new list of ingredients with any changes"""
     ingredientsList = []
     ingredientItems = request.form.getlist("ingredient_name")
     ingredientQty = request.form.getlist("quantity")
@@ -136,12 +146,14 @@ def update_recipe(recipe_id):
         ingredient = {"ingredient_name": ingredientItems[i].lower(), "quantity": ingredientQty[i]}
         ingredientsList.append(ingredient)
         i +=1
+    """Evaluate any allergen information added"""
     if request.form.get("allergens") == "on":
         allergens = True
         allergen_name = request.form["allergen_name"].lower()
     else:
         allergens = False
         allergen_name = ""
+    """Update specific recipe on database with information provided"""
     mongo.db.recipes.update({"_id": ObjectId(recipe_id)},
         {
             "recipe_name": request.form["recipe_name"].lower(),
@@ -157,6 +169,7 @@ def update_recipe(recipe_id):
 
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
+    """Remove selected recipe from database"""
     mongo.db.recipes.remove({"_id": ObjectId(recipe_id)})
     return redirect(url_for("search"))
 
