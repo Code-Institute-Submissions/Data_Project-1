@@ -36,7 +36,7 @@
                     <select multiple name="ingredient_name">
                         <option value="" disabled selected>Ingredients</option> 
                         {% for item in ingredients.ingredient %}
-                            <option value="{{ item.ingredient_name }}">{{ item.ingredient_name.capitalize() }}</option>
+                            <option value="{{ item.ingredient_name }}">{{ item.ingredient_name.title() }}</option>
                         {% endfor %}
                     </select>
                 </div>

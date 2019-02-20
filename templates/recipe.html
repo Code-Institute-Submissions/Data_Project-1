@@ -14,13 +14,13 @@
     <div class="row">
         <ul class="center-align"><strong>Ingredients</strong>
             {% for ingredient in recipe.ingredients %}
-            <li class="center-align">{{ ingredient.quantity + " " + ingredient.ingredient_name.capitalize() }}</li>
+            <li class="center-align">{{ ingredient.quantity + " " + ingredient.ingredient_name.title() }}</li>
             {% endfor %}
         </ul>
     </div>
     <div class="row">
         <div class="center-align"><strong>Instructions</strong>
-            <p id="display">{{ recipe.instructions }}</p>
+            <p id="display">{{ instruction }}</p>
         </div>
     </div>
     <div class="row">

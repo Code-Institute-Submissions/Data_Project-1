@@ -1,7 +1,7 @@
 import os
 import env
-
-from flask import Flask, render_template, redirect, request, url_for, session, json
+import json
+from flask import Flask, render_template, redirect, request, url_for, session
 from flask_paginate import Pagination, get_page_args
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -112,7 +112,7 @@ def insert_recipe():
         "style_name": request.form["style_name"].lower(),
         "author_name": request.form["author_name"].lower(),
         "ingredients": ingredientsList,
-        "instructions": request.form["instructions"],
+        "instructions": json.dumps(request.form["instructions"]),
         "allergens": allergens,
         "allergen_name": allergen_name,
         "views": 0
@@ -124,16 +124,18 @@ def insert_recipe():
 def recipe(choice_id):
     """Display an individual recipe"""
     the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(choice_id)})
+    the_instructions = json.loads(the_recipe["instructions"])
     new_view = the_recipe.get("views")
     new_view +=1
     mongo.db.recipes.update_one(the_recipe, {"$set": {"views": new_view}})
-    return render_template("recipe.html", recipe = the_recipe)
+    return render_template("recipe.html", recipe = the_recipe, instruction = the_instructions)
 
 @app.route('/edit_recipe/<recipe_id>', methods = ["GET", "POST"])
 def edit_recipe(recipe_id):
     """Display form to edit a specifically chosen recipe"""
     the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
-    return render_template("editrecipe.html", recipe = the_recipe)
+    the_instructions = json.loads(the_recipe["instructions"])
+    return render_template("editrecipe.html", recipe = the_recipe, instruction = the_instructions)
     
 @app.route('/update_recipe/<recipe_id>', methods = ["POST"])
 def update_recipe(recipe_id):
@@ -160,7 +162,7 @@ def update_recipe(recipe_id):
             "style_name": request.form["style_name"].lower(),
             "author_name": request.form["author_name"].lower(),
             "ingredients": ingredientsList,
-            "instructions": request.form["instructions"],
+            "instructions": json.dumps(request.form["instructions"]),
             "allergens": allergens,
             "allergen_name": allergen_name,
             "views": int(request.form.get("views"))
