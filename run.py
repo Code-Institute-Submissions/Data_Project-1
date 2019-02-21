@@ -81,20 +81,22 @@ def insert_recipe():
         new_author = request.form["author_name"].lower()
         mongo.db.categories.update({"category_name": "authors"},
             {"$addToSet": {"author": {"author_name": new_author}}})
-    """Create and populate list of ingredients and add any new ingredients to database category"""
+    #Create and populate list of ingredients and add any new ingredients to database category
     ingredientsList = []
     ingredientItems = request.form.getlist("ingredient_name")
     ingredientQty = request.form.getlist("quantity")
     items = mongo.db.categories.find_one({"category_name": "ingredients"})
     i = 0
     while i < len(ingredientItems):
-        if ingredientItems[i] not in items:
+        if not ingredientItems[i]:
+            break
+        elif ingredientItems[i] not in items:
             mongo.db.categories.update({"category_name": "ingredients"},
                 {"$addToSet": {"ingredient": {"ingredient_name": ingredientItems[i].lower()}}})
         ingredient = {"ingredient_name": ingredientItems[i].lower(), "quantity": ingredientQty[i]}
         ingredientsList.append(ingredient)
         i +=1
-    """Evaluate allergens entered and add any new allergens to database category"""
+    #Evaluate allergens entered and add any new allergens to database category
     if request.form.get("allergens") == "on":
         allergens = True
         allergen_name = request.form["allergen_name"].lower()
@@ -106,7 +108,7 @@ def insert_recipe():
     else:
         allergens = False
         allergen_name = ""
-    """Create and populate new recipe document and add to database"""
+    #Create and populate new recipe document and add to database
     new_recipe = {
         "recipe_name": request.form["recipe_name"].lower(),
         "style_name": request.form["style_name"].lower(),
@@ -145,17 +147,19 @@ def update_recipe(recipe_id):
     ingredientQty = request.form.getlist("quantity")
     i = 0
     while i < len(ingredientItems):
+        if not ingredientItems[i]:
+            break
         ingredient = {"ingredient_name": ingredientItems[i].lower(), "quantity": ingredientQty[i]}
         ingredientsList.append(ingredient)
         i +=1
-    """Evaluate any allergen information added"""
+    #Evaluate any allergen information added
     if request.form.get("allergens") == "on":
         allergens = True
         allergen_name = request.form["allergen_name"].lower()
     else:
         allergens = False
         allergen_name = ""
-    """Update specific recipe on database with information provided"""
+    #Update specific recipe on database with information provided
     mongo.db.recipes.update({"_id": ObjectId(recipe_id)},
         {
             "recipe_name": request.form["recipe_name"].lower(),
@@ -182,5 +186,5 @@ def logout():
     return redirect(url_for("index"))
 
 if __name__ == '__main__':
-    app.run(host = os.getenv('IP', '0.0.0.0'), port = int(os.getenv('PORT', '5000')), debug = False)
+    app.run(host = os.getenv('IP', '0.0.0.0'), port = int(os.getenv('PORT', '5000')), debug = True)
     

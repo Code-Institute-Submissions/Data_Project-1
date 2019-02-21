@@ -10,19 +10,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body class="green lighten-3">
-<!-- Page Header -->
+    <!-- Page Header -->
     <div class="container">
         <header>
             <h1 class="center-align green-text text-darken-2">COOKBOOK</h1>
         </header>
     </div>
-<!-- Main Page Content -->
+    <!-- Main Page Content -->
     <main class="container green lighten-5">
         {% block content %}
         
         {% endblock %}
     </main>
-<!-- Javascript required -->
+    <!-- Javascript required -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script>
