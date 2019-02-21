@@ -1,7 +1,7 @@
 import os
 import env
 import json
-from flask import Flask, render_template, redirect, request, url_for, session
+from flask import Flask, render_template, redirect, request, url_for, session, flash
 from flask_paginate import Pagination, get_page_args
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -120,6 +120,7 @@ def insert_recipe():
         "views": 0
     }
     mongo.db.recipes.insert_one(new_recipe)
+    flash("You have successfully added your recipe")
     return redirect(url_for("search"))
       
 @app.route('/recipe/<choice_id>', methods = ["GET", "POST"])
@@ -171,12 +172,14 @@ def update_recipe(recipe_id):
             "allergen_name": allergen_name,
             "views": int(request.form.get("views"))
         })
+    flash("You have successfully changed your recipe")
     return redirect(url_for("results"))
 
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
     """Remove selected recipe from database"""
     mongo.db.recipes.remove({"_id": ObjectId(recipe_id)})
+    flash("You have successfully removed your recipe")
     return redirect(url_for("search"))
 
 @app.route('/logout')

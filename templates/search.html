@@ -4,6 +4,11 @@
 <section class="container">
     <div class="row">
         <h3 class="center-align">Welcome {{ session["username"] }}</h3>
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p id="info" class="center-align green-text text-darken-2"><strong>{{ message }}</strong></p>
+            {% endfor %}
+        {% endwith %}
         <h4 class="center-align">Use the dropdown menus to select categories to find your perfect recipe</h4>
     </div>
     <div class="row">

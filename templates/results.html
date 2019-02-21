@@ -4,6 +4,11 @@
 <section class="container">
     <h3 class="center-align">Matching Recipes</h3>
     <div class="row">
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p id="info" class="center-align green-text text-darken-2"><strong>{{ message }}</strong></p>
+            {% endfor %}
+        {% endwith %}
         <h5 class="center-align">{{ pagination.info }}</h5>
     </div>
     <div class="row">

@@ -25,3 +25,8 @@ main {
 #display {
     white-space: pre-line;
 }
+
+/*------Resize messages displayed------*/
+#info {
+    font-size: 24px;
+}
