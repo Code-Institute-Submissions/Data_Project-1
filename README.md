@@ -8,29 +8,29 @@ author of the recipe, ingredients and allergens. The results of the search are d
 of views each recipe has received. An individual recipe can be chosen from the table and full details displayed to the user.
 The user has options to add a new recipe to the database, as well as updating or deleting existing recipes on the database.
 
-Wireframes for this application can be accessed [here](/Data-Project wireframes.pdf)
+Wireframes for this application can be accessed [here](/Data-Project-wireframes.pdf)
 
 ### Technologies Used
 
 [HMTL5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
-    * Used to define the web application.
+   * Used to define the web application.
 
 [Materialize CSS](http://archives.materializecss.com/0.100.2/)
-    * A modern responsive front-end framework based on Material Design, used to apply styles and
+   * A modern responsive front-end framework based on Material Design, used to apply styles and
       colours to, and provide a responsive layout for the web application.
 
 [jQuery](https://jquery.com/)
-    * Javascript library used to target specific HTML elements with javascript functions.
+   * Javascript library used to target specific HTML elements with javascript functions.
 
 [Python](https://www.python.org/)
-    * Used to code the application's logic and data processing needs.
+   * Used to code the application's logic and data processing needs.
 
 [Flask](http://flask.pocoo.org/)
-    * A web framework used with Python programming language.
+   * A web framework used with Python programming language.
 
 [MongoDB](https://www.mongodb.com/)
-    * An open-source, non-relational, document-oriented database to store all the recipes for the application.
-    
+   * An open-source, non-relational, document-oriented database to store all the recipes for the application.
+
 ### Testing
 
 __Manual Testing__
